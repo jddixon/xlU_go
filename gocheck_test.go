@@ -1,14 +1,10 @@
-package xlattice_go
+package u
 
 import (
-	. "launchpad.net/gocheck"
-	"testing"
+    "testing"
+    . "launchpad.net/gocheck"	// for Suite
 )
 
-// IF USING gocheck, need a file like this in each package=directory.
-
 func Test(t *testing.T) { TestingT(t) }
-
 type XLSuite struct{}
-
 var _ = Suite(&XLSuite{})
