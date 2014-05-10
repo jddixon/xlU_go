@@ -1,4 +1,4 @@
-package u
+package xlU_go
 
 import (
 	. "gopkg.in/check.v1"

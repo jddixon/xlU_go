@@ -1,6 +1,4 @@
-package u
-
-// xlattice_go/u/sha1_test.go
+package xlU_go
 
 import (
 	"crypto/sha1"

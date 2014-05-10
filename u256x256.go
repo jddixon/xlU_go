@@ -1,6 +1,4 @@
-package u
-
-// xlattice_go/u/u256x256.go
+package xlU_go
 
 import (
 	"code.google.com/p/go.crypto/sha3"
@@ -8,12 +6,10 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt" // DEBUG
-	xr "github.com/jddixon/xlattice_go/rnglib"
+	xr "github.com/jddixon/rnglib_go"
 	xf "github.com/jddixon/xlattice_go/util/lfs"
-	//"io/ioutil"
 	"os"
 	"path/filepath"
-	//"time"
 )
 
 // CLASS, so to speak ///////////////////////////////////////////////

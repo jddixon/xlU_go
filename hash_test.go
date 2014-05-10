@@ -1,6 +1,4 @@
-package u
-
-// xlattice_go/u/hash_test.go
+package xlU_go
 
 import (
 	"encoding/hex"

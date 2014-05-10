@@ -1,6 +1,4 @@
-package u
-
-// xlattice_go/u/u.go
+package xlU_go
 
 import (
 	"code.google.com/p/go.crypto/sha3"

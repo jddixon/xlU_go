@@ -1,7 +1,7 @@
-package u
+package xlU_go
 
 import (
-	xr "github.com/jddixon/xlattice_go/rnglib"
+	xr "github.com/jddixon/rnglib_go"
 )
 
 type UI interface {

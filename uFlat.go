@@ -1,17 +1,13 @@
-package u
-
-// xlattice_go/u/uFlat.go
+package xlU_go
 
 import (
-	// "bytes"
 	"code.google.com/p/go.crypto/sha3"
 	"crypto/sha1"
 	"encoding/hex"
 	"errors"
 	"fmt" // DEBUG
-	xr "github.com/jddixon/xlattice_go/rnglib"
+	xr "github.com/jddixon/rnglib_go"
 	xf "github.com/jddixon/xlattice_go/util/lfs"
-	//"io/ioutil"
 	"os"
 	"path/filepath"
 )
