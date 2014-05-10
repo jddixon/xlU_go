@@ -3,7 +3,7 @@ package xlU_go
 import (
 	"encoding/hex"
 	"fmt"
-	xf "github.com/jddixon/xlattice_go/util/lfs"
+	xf "github.com/jddixon/xlUtil_go/lfs"
 	"hash"
 	"io/ioutil"
 	. "gopkg.in/check.v1"

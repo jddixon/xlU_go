@@ -7,7 +7,7 @@ import (
 	"errors"
 	"fmt" // DEBUG
 	xr "github.com/jddixon/rnglib_go"
-	xf "github.com/jddixon/xlattice_go/util/lfs"
+	xf "github.com/jddixon/xlUtil_go/lfs"
 	"os"
 	"path/filepath"
 )

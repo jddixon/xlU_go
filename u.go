@@ -5,7 +5,7 @@ import (
 	"crypto/sha1"
 	"encoding/hex"
 	"errors"
-	xf "github.com/jddixon/xlattice_go/util/lfs"
+	xf "github.com/jddixon/xlUtil_go/lfs"
 	"io"
 	"io/ioutil"
 	"os"
