@@ -1,5 +1,8 @@
 xlU_go/TODO
 
+2014-07-14 (from xlattice_go/TODO 2014-03-18)
+    * uDir.Exists() or variant should take []byte arg
+    
 2014-03-25
     * fix: DEFAULT_BUFFER_SIZE set to 64KB, must reset to 128KB         * DONE
 
