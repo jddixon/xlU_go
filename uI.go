@@ -27,13 +27,21 @@ type UI interface {
 	GetDirStruc() DirStruc
 	GetPath() string // utility?
 
-	// 2014-03-20: these exist in two forms (or should); names are confusing
-	Exists(key string) (bool, error)
-	KeyExists(key []byte) (bool, error)
+	// These exist in two forms, for convenience
+	HexKeyExists(key string) (bool, error)
+	ByteKeyExists(key []byte) (bool, error)
 
-	FileLen(key string) (length int64, err error)
-	KeyFileLen(key []byte) (length int64, err error)
+	HexKeyFileLen(key string) (length int64, err error)
+	ByteKeyFileLen(key []byte) (length int64, err error)
 
-	GetPathForKey(key string) (string, error)
-	GetPathForBinaryKey(key []byte) (string, error)
+	GetPathForHexKey(key string) (string, error)
+	GetPathForByteKey(key []byte) (string, error)
+
+	// DEPRECATED
+	//Exists(key string) (bool, error)
+	//KeyExists(key []byte) (bool, error)
+	//FileLen(key string) (length int64, err error)
+	//KeyFileLen(key []byte) (length int64, err error)
+	//GetPathForBinaryKey(key []byte) (string, error)
+	//GetPathForKey(key string) (string, error)
 }

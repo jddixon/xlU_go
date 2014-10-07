@@ -4,9 +4,9 @@ import (
 	"encoding/hex"
 	"fmt"
 	xf "github.com/jddixon/xlUtil_go/lfs"
+	. "gopkg.in/check.v1"
 	"hash"
 	"io/ioutil"
-	. "gopkg.in/check.v1"
 	"os"
 	"path/filepath"
 )
@@ -89,7 +89,7 @@ func (s *XLSuite) doTestCopyAndPut(
 	found, err := xf.PathExists(dPath)
 	c.Assert(err, IsNil)
 	c.Assert(found, Equals, true)
-	xPath, err := u.GetPathForKey(uKey)
+	xPath, err := u.GetPathForHexKey(uKey)
 	c.Assert(err, IsNil)
 	found, err = xf.PathExists(xPath)
 	c.Assert(err, IsNil)
@@ -124,7 +124,7 @@ func (s *XLSuite) doTestExists(c *C, u UI, digest hash.Hash) {
 	}
 	c.Assert(err, Equals, nil)
 	c.Assert(dLen, Equals, uLen)
-	kPath, err := u.GetPathForKey(uKey)
+	kPath, err := u.GetPathForHexKey(uKey)
 	c.Assert(err, Equals, nil)
 	found, err := xf.PathExists(kPath)
 	c.Assert(err, IsNil)
@@ -133,10 +133,10 @@ func (s *XLSuite) doTestExists(c *C, u UI, digest hash.Hash) {
 	bKey, err := hex.DecodeString(uKey)
 	c.Assert(err, IsNil)
 
-	found, err = u.Exists(uKey) // string version of key
+	found, err = u.HexKeyExists(uKey) // string version of key
 	c.Assert(err, IsNil)
 	c.Assert(found, Equals, true)
-	found, err = u.KeyExists(bKey) // binary version of key
+	found, err = u.ByteKeyExists(bKey) // binary version of key
 	c.Assert(err, IsNil)
 	c.Assert(found, Equals, true)
 
@@ -146,7 +146,7 @@ func (s *XLSuite) doTestExists(c *C, u UI, digest hash.Hash) {
 	c.Assert(err, IsNil)
 	c.Assert(found, Equals, false)
 
-	found, err = u.KeyExists(bKey) // binary version of key
+	found, err = u.ByteKeyExists(bKey) // binary version of key
 	c.Assert(err, IsNil)
 	c.Assert(found, Equals, false)
 }
@@ -172,10 +172,10 @@ func (s *XLSuite) doTestFileLen(c *C, u UI, digest hash.Hash) {
 	}
 	c.Assert(err, Equals, nil)
 	c.Assert(dLen, Equals, uLen)
-	kPath, err := u.GetPathForKey(uKey)
+	kPath, err := u.GetPathForHexKey(uKey)
 	c.Assert(err, IsNil)
 	_ = kPath // NOT USED
-	length, err := u.FileLen(uKey)
+	length, err := u.HexKeyFileLen(uKey)
 	c.Assert(err, Equals, nil)
 	c.Assert(dLen, Equals, length)
 }
@@ -191,10 +191,10 @@ func (s *XLSuite) doTestFileHash(c *C, u UI, digest hash.Hash) {
 	hash := digest.Sum(nil)
 	dKey := hex.EncodeToString(hash) // 'expected'
 	var fKey string
-	if len(dKey) == SHA1_LEN {
+	if len(dKey) == SHA1_HEX_LEN {
 		fKey, err = FileSHA1(dPath) // 'actual'
 	} else {
-		c.Assert(len(dKey), Equals, SHA3_LEN)
+		c.Assert(len(dKey), Equals, SHA3_HEX_LEN)
 		fKey, err = FileSHA3(dPath) // 'actual'
 	}
 	c.Assert(err, Equals, nil)
@@ -221,7 +221,7 @@ func (s *XLSuite) doTestGetPathForKey(c *C, u UI, digest hash.Hash) {
 		c.Assert(err, Equals, nil)
 	}
 	c.Assert(uLen, Equals, dLen)
-	kPath, err := u.GetPathForKey(uKey)
+	kPath, err := u.GetPathForHexKey(uKey)
 	c.Assert(err, IsNil)
 
 	var expectedPath string
@@ -268,7 +268,7 @@ func (s *XLSuite) doTestPut(c *C, u UI, digest hash.Hash) {
 		c.Assert(err, Equals, nil)
 	}
 	c.Assert(dLen, Equals, uLen)
-	kPath, err := u.GetPathForKey(uKey)
+	kPath, err := u.GetPathForHexKey(uKey)
 	c.Assert(err, IsNil)
 	_ = kPath // NOT USED
 
@@ -277,7 +277,7 @@ func (s *XLSuite) doTestPut(c *C, u UI, digest hash.Hash) {
 	c.Assert(err, IsNil)
 	c.Assert(found, Equals, false)
 
-	found, err = u.Exists(uKey)
+	found, err = u.HexKeyExists(uKey)
 	c.Assert(err, IsNil)
 	c.Assert(found, Equals, true)
 
@@ -297,7 +297,7 @@ func (s *XLSuite) doTestPut(c *C, u UI, digest hash.Hash) {
 	c.Assert(err, IsNil)
 	c.Assert(found, Equals, false)
 
-	found, err = u.Exists(uKey)
+	found, err = u.HexKeyExists(uKey)
 	c.Assert(err, IsNil)
 	c.Assert(found, Equals, true)
 }
@@ -330,11 +330,11 @@ func (s *XLSuite) doTestPutData(c *C, u UI, digest hash.Hash) {
 	c.Assert(dLen, Equals, uLen)
 	c.Assert(dKey, Equals, uKey)
 
-	found, err := u.Exists(uKey)
+	found, err := u.HexKeyExists(uKey)
 	c.Assert(err, Equals, nil)
 	c.Assert(found, Equals, true)
 
-	xPath, err := u.GetPathForKey(uKey)
+	xPath, err := u.GetPathForHexKey(uKey)
 	c.Assert(err, IsNil)
 	found, err = xf.PathExists(xPath)
 	c.Assert(err, IsNil)

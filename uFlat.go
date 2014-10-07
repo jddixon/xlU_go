@@ -51,22 +51,27 @@ func (u *UFlat) GetDirStruc() DirStruc { return DIR_FLAT }
 func (u *UFlat) GetPath() string       { return u.path }
 func (u *UFlat) GetRNG() *xr.PRNG      { return u.rng }
 
-// STRING KEY FUNCTIONS =============================================
+// HEX KEY FUNCTIONS ================================================
 
-// - Exists ---------------------------------------------------------
-
+// DEPRECATED
 func (u *UFlat) Exists(key string) (found bool, err error) {
-	path, err := u.GetPathForKey(key)
+	return u.HexKeyExists(key)
+}
+
+func (u *UFlat) HexKeyExists(key string) (found bool, err error) {
+	path, err := u.GetPathForHexKey(key)
 	if err == nil {
 		found, err = xf.PathExists(path)
 	}
 	return
 }
 
-// - FileLen --------------------------------------------------------
-
+// DEPRECATED
 func (u *UFlat) FileLen(key string) (length int64, err error) {
-	path, err := u.GetPathForKey(key)
+	return u.HexKeyFileLen(key)
+}
+func (u *UFlat) HexKeyFileLen(key string) (length int64, err error) {
+	path, err := u.GetPathForHexKey(key)
 	if err == nil {
 		var info os.FileInfo
 		info, err = os.Stat(path) // ERRORS IGNORED
@@ -77,10 +82,13 @@ func (u *UFlat) FileLen(key string) (length int64, err error) {
 	return
 }
 
-// - GetPathForKey --------------------------------------------------
+// DEPRECATED
+func (u *UFlat) GetPathForKey(key string) (path string, err error) {
+	return u.GetPathForHexKey(key)
+}
 
 // Returns a path to a file with the content key passed.
-func (u *UFlat) GetPathForKey(key string) (path string, err error) {
+func (u *UFlat) GetPathForHexKey(key string) (path string, err error) {
 	if key == "" {
 		err = EmptyKey
 	} else {
@@ -91,20 +99,26 @@ func (u *UFlat) GetPathForKey(key string) (path string, err error) {
 
 // BINARY KEY FUNCTIONS =============================================
 
-// - KeyExists ------------------------------------------------------
-
+// DEPRECATED
 func (u *UFlat) KeyExists(key []byte) (found bool, err error) {
-	path, err := u.GetPathForBinaryKey(key)
+	return u.ByteKeyExists(key)
+}
+
+func (u *UFlat) ByteKeyExists(key []byte) (found bool, err error) {
+	path, err := u.GetPathForByteKey(key)
 	if err == nil {
 		found, err = xf.PathExists(path)
 	}
 	return
 }
 
-// - KeyFileLen -----------------------------------------------------
-
+// DEPRECATED
 func (u *UFlat) KeyFileLen(key []byte) (length int64, err error) {
-	path, err := u.GetPathForBinaryKey(key)
+	return u.ByteKeyFileLen(key)
+}
+
+func (u *UFlat) ByteKeyFileLen(key []byte) (length int64, err error) {
+	path, err := u.GetPathForByteKey(key)
 	if err == nil {
 		var info os.FileInfo
 		info, err = os.Stat(path)
@@ -115,16 +129,19 @@ func (u *UFlat) KeyFileLen(key []byte) (length int64, err error) {
 	return
 }
 
-// - GetPathForBinaryKey --------------------------------------------
+// DEPRECATED
+func (u *UFlat) GetPathForBinaryKey(key []byte) (path string, err error) {
+	return u.GetPathForByteKey(key)
+}
 
 // Returns a path to a file with the content key passed.
 //
-func (u *UFlat) GetPathForBinaryKey(key []byte) (path string, err error) {
+func (u *UFlat) GetPathForByteKey(key []byte) (path string, err error) {
 	if key == nil {
 		err = NilKey
 	} else {
 		strKey := hex.EncodeToString(key)
-		path, err = u.GetPathForKey(strKey)
+		path, err = u.GetPathForHexKey(strKey)
 	}
 	return
 }
@@ -151,9 +168,9 @@ func (u *UFlat) CopyAndPut(pathToFile string, key []byte) (
 	} else {
 		strKey := hex.EncodeToString(key)
 		switch len(strKey) {
-		case SHA1_LEN:
+		case SHA1_HEX_LEN:
 			length, _, err = u.CopyAndPut1(pathToFile, strKey)
-		case SHA3_LEN:
+		case SHA3_HEX_LEN:
 			length, _, err = u.CopyAndPut3(pathToFile, strKey)
 		default:
 			err = BadKeyLength
@@ -173,9 +190,9 @@ func (u *UFlat) GetData(key []byte) (data []byte, err error) {
 	} else {
 		strKey := hex.EncodeToString(key)
 		switch len(strKey) {
-		case SHA1_LEN:
+		case SHA1_HEX_LEN:
 			data, err = u.GetData1(strKey)
-		case SHA3_LEN:
+		case SHA3_HEX_LEN:
 			data, err = u.GetData3(strKey)
 		default:
 			err = BadKeyLength
@@ -201,9 +218,9 @@ func (u *UFlat) Put(tmpFile string, key []byte) (length int64, err error) {
 	} else {
 		strKey := hex.EncodeToString(key)
 		switch len(strKey) {
-		case SHA1_LEN:
+		case SHA1_HEX_LEN:
 			length, _, err = u.Put1(tmpFile, strKey)
-		case SHA3_LEN:
+		case SHA3_HEX_LEN:
 			length, _, err = u.Put3(tmpFile, strKey)
 		default:
 			err = BadKeyLength
@@ -225,9 +242,9 @@ func (u *UFlat) PutData(data []byte, key []byte) (
 		var strHash string
 		strKey := hex.EncodeToString(key)
 		switch len(strKey) {
-		case SHA1_LEN:
+		case SHA1_HEX_LEN:
 			length, strHash, err = u.PutData1(data, strKey)
-		case SHA3_LEN:
+		case SHA3_HEX_LEN:
 			length, strHash, err = u.PutData3(data, strKey)
 		default:
 			err = BadKeyLength
@@ -269,7 +286,7 @@ func (u *UFlat) GetData1(key string) (data []byte, err error) {
 		path  string
 		src   *os.File
 	)
-	path, err = u.GetPathForKey(key)
+	path, err = u.GetPathForHexKey(key)
 	if err == nil {
 		found, err = xf.PathExists(path)
 	}
@@ -413,7 +430,7 @@ func (u *UFlat) GetData3(key string) (data []byte, err error) {
 		found bool
 		path  string
 	)
-	path, err = u.GetPathForKey(key)
+	path, err = u.GetPathForHexKey(key)
 	if err == nil {
 		found, err = xf.PathExists(path)
 	}

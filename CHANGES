@@ -1,5 +1,12 @@
 xlU_go/CHANGES
 
+v0.6.0
+    2014-10-07
+        * default buffer size now 256KB
+        * SHA1_LEN now SHA1_HEX_LEN etc
+        * standardized function names (Exists to Byte/HexKeyExists
+            and such)
+        * and so changed the API, leaving old functions deprecated  SLOC 1897
 v0.5.0
     2014-05-10
         * split from xlattice_go                                    SLOC 1843

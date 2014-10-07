@@ -1,17 +1,19 @@
 xlU_go/TODO
 
+2014-10-07
+    * replace SHA{1,3}_LEN with SHA1{1,3}_HEX_LEN to avoid              * DONE
+        conflicts with use of these names elsewhere                     * DONE
+    * DEFAULT_BUFFER_SIZE to 256 KB                                     * DONE
+
 2014-07-14 (from xlattice_go/TODO 2014-03-18)
     * uDir.Exists() or variant should take []byte arg
     
-2014-03-25
-    * fix: DEFAULT_BUFFER_SIZE set to 64KB, must reset to 128KB         * DONE
-
 2014-03-20
-    * the functions with similar names operating on []byte and
-        string keys (Exists, KeyExists, etc) need better names
-        that follow a regular pattern
-        - need to transition to the new names, with older names
-            available but clearly marked deprecated
+    * the functions with similar names operating on []byte and		    * DONE
+        string keys (Exists, KeyExists, etc) need better names		    * DONE
+        that follow a regular pattern	                            	* DONE
+        - need to transition to the new names, with older names		    * DONE
+            available but clearly marked deprecated		                * DONE
 
 2014-03-11
     * Code needs checking: carefully compare UFlat and U16x16 etc

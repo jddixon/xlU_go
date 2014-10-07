@@ -47,7 +47,7 @@ func CopyFile(destName, srcName string) (written int64, err error) {
 // returns the SHA1 hash of the contents of a file
 func FileSHA1(path string) (hash string, err error) {
 	var data2 []byte
-	hash = SHA1_NONE
+	hash = SHA1_HEX_NONE
 	found, err := xf.PathExists(path)
 	if err == nil && !found {
 		err = errors.New("IllegalArgument: empty path or non-existent file")
@@ -70,7 +70,7 @@ func FileSHA1(path string) (hash string, err error) {
 func FileSHA3(path string) (hash string, err error) {
 	var data2 []byte
 
-	hash = SHA3_NONE
+	hash = SHA3_HEX_NONE
 	found, err := xf.PathExists(path)
 	if err == nil && !found {
 		err = errors.New("IllegalArgument: empty path or non-existent file")
