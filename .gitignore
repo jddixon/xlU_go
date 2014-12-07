@@ -6,9 +6,10 @@ junk*
 .merkle
 .posted
 *.swp
+.wrapped
 tmp
 *ZZZ
+.sharedev
+myData
 myU1
 myU3
-myData
-.wrapped
