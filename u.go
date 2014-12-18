@@ -3,8 +3,10 @@ package xlU_go
 import (
 	"code.google.com/p/go.crypto/sha3"
 	"crypto/sha1"
+	"crypto/sha256"
 	"encoding/hex"
 	"errors"
+	xu "github.com/jddixon/xlUtil_go"
 	xf "github.com/jddixon/xlUtil_go/lfs"
 	"io"
 	"io/ioutil"
@@ -47,7 +49,7 @@ func CopyFile(destName, srcName string) (written int64, err error) {
 // returns the SHA1 hash of the contents of a file
 func FileSHA1(path string) (hash string, err error) {
 	var data2 []byte
-	hash = SHA1_HEX_NONE
+	hash = xu.SHA1_HEX_NONE
 	found, err := xf.PathExists(path)
 	if err == nil && !found {
 		err = errors.New("IllegalArgument: empty path or non-existent file")
@@ -70,7 +72,7 @@ func FileSHA1(path string) (hash string, err error) {
 func FileSHA3(path string) (hash string, err error) {
 	var data2 []byte
 
-	hash = SHA3_HEX_NONE
+	hash = xu.SHA3_HEX_NONE
 	found, err := xf.PathExists(path)
 	if err == nil && !found {
 		err = errors.New("IllegalArgument: empty path or non-existent file")
@@ -81,6 +83,30 @@ func FileSHA3(path string) (hash string, err error) {
 	}
 	if err == nil {
 		d2 := sha3.NewKeccak256()
+		d2.Write(data2)
+		digest2 := d2.Sum(nil)
+		hash = hex.EncodeToString(digest2)
+	}
+	return
+}
+
+// - FileSHA2 --------------------------------------------------------
+
+// returns the SHA2 hash of the contents of a file
+func FileSHA2(path string) (hash string, err error) {
+	var data2 []byte
+
+	hash = xu.SHA2_HEX_NONE
+	found, err := xf.PathExists(path)
+	if err == nil && !found {
+		err = errors.New("IllegalArgument: empty path or non-existent file")
+	}
+
+	if err == nil {
+		data2, err = ioutil.ReadFile(path)
+	}
+	if err == nil {
+		d2 := sha256.New()
 		d2.Write(data2)
 		digest2 := d2.Sum(nil)
 		hash = hex.EncodeToString(digest2)

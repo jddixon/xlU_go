@@ -7,18 +7,22 @@ import (
 type UI interface {
 	CopyAndPut(path string, key []byte) (int64, error)
 	CopyAndPut1(path, key string) (int64, string, error)
+	CopyAndPut2(path, key string) (int64, string, error)
 	CopyAndPut3(path, key string) (int64, string, error)
 
 	GetData(key []byte) ([]byte, error)
 	GetData1(key string) (data []byte, err error)
+	GetData2(key string) (data []byte, err error)
 	GetData3(key string) (data []byte, err error)
 
 	Put(inFile string, key []byte) (length int64, err error)
 	Put1(inFile, key string) (length int64, hash string, err error)
+	Put2(inFile, key string) (length int64, hash string, err error)
 	Put3(inFile, key string) (length int64, hash string, err error)
 
 	PutData(data []byte, key []byte) (length int64, hash []byte, err error)
 	PutData1(data []byte, key string) (length int64, hash string, err error)
+	PutData2(data []byte, key string) (length int64, hash string, err error)
 	PutData3(data []byte, key string) (length int64, hash string, err error)
 
 	// presumably temporary

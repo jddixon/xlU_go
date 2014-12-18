@@ -2,6 +2,7 @@ package xlU_go
 
 import (
 	"crypto/sha1"
+	xu "github.com/jddixon/xlUtil_go"
 	. "gopkg.in/check.v1"
 )
 
@@ -11,7 +12,7 @@ func (s *XLSuite) setUp1() {
 	uInDir = "myU1/in"
 	uTmpDir = "myU1/tmp"
 	s.setUpHashTest()
-	usingSHA1 = true
+	whichSHA = xu.USING_SHA1
 }
 
 func (s *XLSuite) doTestCopyAndPut1(c *C, ds DirStruc) {

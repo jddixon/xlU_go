@@ -3,10 +3,12 @@ package xlU_go
 import (
 	"code.google.com/p/go.crypto/sha3"
 	"crypto/sha1"
+	"crypto/sha256"
 	"encoding/hex"
 	"errors"
 	"fmt" // DEBUG
 	xr "github.com/jddixon/rnglib_go"
+	xu "github.com/jddixon/xlUtil_go"
 	xf "github.com/jddixon/xlUtil_go/lfs"
 	"os"
 	"path/filepath"
@@ -168,9 +170,9 @@ func (u *UFlat) CopyAndPut(pathToFile string, key []byte) (
 	} else {
 		strKey := hex.EncodeToString(key)
 		switch len(strKey) {
-		case SHA1_HEX_LEN:
+		case xu.SHA1_HEX_LEN:
 			length, _, err = u.CopyAndPut1(pathToFile, strKey)
-		case SHA3_HEX_LEN:
+		case xu.SHA3_HEX_LEN:
 			length, _, err = u.CopyAndPut3(pathToFile, strKey)
 		default:
 			err = BadKeyLength
@@ -190,9 +192,9 @@ func (u *UFlat) GetData(key []byte) (data []byte, err error) {
 	} else {
 		strKey := hex.EncodeToString(key)
 		switch len(strKey) {
-		case SHA1_HEX_LEN:
+		case xu.SHA1_HEX_LEN:
 			data, err = u.GetData1(strKey)
-		case SHA3_HEX_LEN:
+		case xu.SHA3_HEX_LEN:
 			data, err = u.GetData3(strKey)
 		default:
 			err = BadKeyLength
@@ -218,9 +220,9 @@ func (u *UFlat) Put(tmpFile string, key []byte) (length int64, err error) {
 	} else {
 		strKey := hex.EncodeToString(key)
 		switch len(strKey) {
-		case SHA1_HEX_LEN:
+		case xu.SHA1_HEX_LEN:
 			length, _, err = u.Put1(tmpFile, strKey)
-		case SHA3_HEX_LEN:
+		case xu.SHA3_HEX_LEN:
 			length, _, err = u.Put3(tmpFile, strKey)
 		default:
 			err = BadKeyLength
@@ -242,9 +244,9 @@ func (u *UFlat) PutData(data []byte, key []byte) (
 		var strHash string
 		strKey := hex.EncodeToString(key)
 		switch len(strKey) {
-		case SHA1_HEX_LEN:
+		case xu.SHA1_HEX_LEN:
 			length, strHash, err = u.PutData1(data, strKey)
-		case SHA3_HEX_LEN:
+		case xu.SHA3_HEX_LEN:
 			length, strHash, err = u.PutData3(data, strKey)
 		default:
 			err = BadKeyLength
@@ -531,6 +533,145 @@ func (u *UFlat) PutData3(data []byte, key string) (length int64, hash string, er
 			count, err = dest.Write(data)
 			if err == nil {
 				length = int64(count)
+			}
+		}
+	}
+	return
+}
+
+// SHA2 CODE ========================================================
+
+// CopyAndPut2 ------------------------------------------------------
+
+func (u *UFlat) CopyAndPut2(path, key string) (
+	written int64, hash string, err error) {
+
+	// the temporary file MUST be created on the same device
+	// xxx POSSIBLE RACE CONDITION
+	tmpFileName := filepath.Join(u.tmpDir, u.rng.NextFileName(16))
+	found, err := xf.PathExists(tmpFileName)
+	for found {
+		tmpFileName = filepath.Join(u.tmpDir, u.rng.NextFileName(16))
+		found, err = xf.PathExists(tmpFileName)
+	}
+	written, err = CopyFile(tmpFileName, path) // dest <== src
+	if err == nil {
+		written, hash, err = u.Put2(tmpFileName, key)
+	}
+	return
+}
+
+// - GetData2 --------------------------------------------------------
+func (u *UFlat) GetData2(key string) (data []byte, err error) {
+
+	var (
+		found bool
+		path  string
+		src   *os.File
+	)
+	path, err = u.GetPathForHexKey(key)
+	if err == nil {
+		found, err = xf.PathExists(path)
+	}
+	if err == nil && !found {
+		err = FileNotFound
+	}
+	if err == nil {
+		src, err = os.Open(path)
+	}
+	if err == nil {
+		defer src.Close()
+		var count int
+		// XXX THIS WILL NOT WORK FOR LARGER FILES!  It will ignore
+		//     anything over 128 KB
+		data = make([]byte, DEFAULT_BUFFER_SIZE)
+		count, err = src.Read(data)
+		// XXX COUNT IS IGNORED
+		_ = count
+	}
+	return
+}
+
+// - Put2 ------------------------------------------------------------
+
+// tmp is the path to a local file which will be renamed into U (or deleted
+// if it is already present in U)
+// u.path is an absolute or relative path to a U directory organized _FLAT
+// key is an sha256 content hash.
+// If the operation succeeds we return the length of the file (which must
+// not be zero.  Otherwise we return 0.
+// XXX We don't do much checking.
+//
+func (u *UFlat) Put2(inFile, key string) (
+	length int64, hash string, err error) {
+
+	var (
+		found       bool
+		fullishPath string
+	)
+	hash, err = FileSHA2(inFile)
+	if err != nil {
+		fmt.Printf("DEBUG: FileSHA2 returned error %v\n", err)
+		return
+	}
+	if hash != key {
+		fmt.Printf("expected %s to have key %s, but the content key is %s\n",
+			inFile, key, hash)
+		err = errors.New("IllegalArgument: Put2: key does not match content")
+		return
+	}
+	info, err := os.Stat(inFile)
+	if err == nil {
+		length = info.Size()
+		fullishPath = filepath.Join(u.path, key)
+		found, err = xf.PathExists(fullishPath)
+	}
+	if err == nil {
+		if found {
+			// drop the temporary input file
+			err = os.Remove(inFile)
+		} else {
+			// rename the temporary file into U
+			err = os.Rename(inFile, fullishPath)
+			if err == nil {
+				err = os.Chmod(fullishPath, 0444)
+			}
+		}
+	}
+	return
+}
+
+// PutData2 ---------------------------------------------------------
+func (u *UFlat) PutData2(data []byte, key string) (
+	length int64, hash string, err error) {
+
+	var fullishPath string
+	var found bool
+
+	s := sha256.New()
+	s.Write(data)
+	hash = hex.EncodeToString(s.Sum(nil))
+	if hash != key {
+		fmt.Printf("expected data to have key %s, but content key is %s",
+			key, hash)
+		err = errors.New("content/key mismatch")
+		return
+	}
+	length = int64(len(data))
+
+	if err == nil {
+		fullishPath = filepath.Join(u.path, key)
+		found, err = xf.PathExists(fullishPath)
+		if err == nil && !found {
+			var dest *os.File
+			dest, err = os.Create(fullishPath)
+			if err == nil {
+				var count int
+				defer dest.Close()
+				count, err = dest.Write(data)
+				if err == nil {
+					length = int64(count)
+				}
 			}
 		}
 	}

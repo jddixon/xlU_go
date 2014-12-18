@@ -1,5 +1,19 @@
 xlU_go/TODO
 
+2014-12-17
+    * introduce SHA-256 as SHA2 and so sha2_test.go
+        - consider how to sensibly mix SHA256 and SHA3-256 in the
+            same file system!
+    * use SHA1_HEX_LEN etc constants from xlUtil_go
+    * hash_test.go needs a way to distinguish SHA2 and SHA3 files!
+    * reorder blocks of code in u16x16.go, u256x, and uFlat so that
+        they are in SHAx order (1,2,3)
+
+    * sha3 invocation of doTestFileHash is failing because it
+        switches on len(dKey) which uses sha256 instead of sha3;
+        make bad fix which is to switch on the type of hash?
+        - FIX sha3_test.go's TestFileHash3() 
+
 2014-12-03
     * merge README and README.md
 2014-10-07
