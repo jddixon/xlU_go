@@ -1,4 +1,5 @@
-# xlU_go
+xlU_go
+======
 
 Content-keyed directory structures for xlattice_go.
 
@@ -29,5 +30,5 @@ The Keccak distribution (KeccakKat-3.zip) contains a very large collection
 of test vectors.
 
 ## On-line Documentation
-
-More information on the **xlU_go** project can be found [here](https://jddixon.github.io/xlU_go)
+More information on the **xlU_go** project can be found 
+[here](https://jddixon.github.io/xlU_go)
