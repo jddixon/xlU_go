@@ -1,5 +1,8 @@
 xlU_go/CHANGES
 
+v0.7.1
+    2015-06-08
+        * replace FileSHAx with File{Bin,Hex}SHAx                   SLOC 2432
 v0.7.0
     2014-12-17
         * adding support for SHA256                                 SLOC 2399

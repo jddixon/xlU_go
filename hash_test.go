@@ -69,11 +69,11 @@ func (s *XLSuite) doTestCopyAndPut(
 	var err error
 	switch whichSHA {
 	case xu.USING_SHA1:
-		dKey, err = FileSHA1(dPath)
+		dKey, err = FileHexSHA1(dPath)
 	case xu.USING_SHA2:
-		dKey, err = FileSHA2(dPath)
+		dKey, err = FileHexSHA2(dPath)
 	case xu.USING_SHA3:
-		dKey, err = FileSHA3(dPath)
+		dKey, err = FileHexSHA3(dPath)
 		// XXX DEFAULT = ERROR
 	}
 	c.Assert(err, Equals, nil) // actual, Equals, expected
@@ -106,7 +106,7 @@ func (s *XLSuite) doTestCopyAndPut(
 
 	// HACK - SIMPLEST Keccak TEST VECTOR
 	if whichSHA == xu.USING_SHA3 {
-		dKey, err = FileSHA3("abc")
+		dKey, err = FileHexSHA3("abc")
 		fmt.Printf("SHA3-256 for 'abc' is %s\n", dKey)
 	}
 	// END HACK
@@ -120,11 +120,11 @@ func (s *XLSuite) doTestExists(c *C, u UI, digest hash.Hash) {
 	var err error
 	switch whichSHA {
 	case xu.USING_SHA1:
-		dKey, err = FileSHA1(dPath)
+		dKey, err = FileHexSHA1(dPath)
 	case xu.USING_SHA2:
-		dKey, err = FileSHA2(dPath)
+		dKey, err = FileHexSHA2(dPath)
 	case xu.USING_SHA3:
-		dKey, err = FileSHA3(dPath)
+		dKey, err = FileHexSHA3(dPath)
 		// XXX DEFAULT = ERROR
 	}
 	c.Assert(err, Equals, nil)
@@ -176,11 +176,11 @@ func (s *XLSuite) doTestFileLen(c *C, u UI, digest hash.Hash) {
 	var err error
 	switch whichSHA {
 	case xu.USING_SHA1:
-		dKey, err = FileSHA1(dPath)
+		dKey, err = FileHexSHA1(dPath)
 	case xu.USING_SHA2:
-		dKey, err = FileSHA2(dPath)
+		dKey, err = FileHexSHA2(dPath)
 	case xu.USING_SHA3:
-		dKey, err = FileSHA3(dPath)
+		dKey, err = FileHexSHA3(dPath)
 		// XXX DEFAULT = ERROR
 	}
 	c.Assert(err, Equals, nil)
@@ -218,12 +218,12 @@ func (s *XLSuite) doTestFileHash(c *C, u UI, digest hash.Hash) {
 	var fKey string
 	switch len(dKey) {
 	case xu.SHA1_HEX_LEN:
-		fKey, err = FileSHA1(dPath) // 'actual'
+		fKey, err = FileHexSHA1(dPath) // 'actual'
 	case xu.SHA2_HEX_LEN:
-		fKey, err = FileSHA2(dPath) // 'actual'
+		fKey, err = FileHexSHA2(dPath) // 'actual'
 		// XXX THIS CASE WON'T WORK
 		// case xu.SHA3_HEX_LEN:
-		//	fKey, err = FileSHA3(dPath) // 'actual'
+		//	fKey, err = FileHexSHA3(dPath) // 'actual'
 		// DEFAULT = ERROR
 	}
 	c.Assert(err, Equals, nil)
@@ -240,17 +240,17 @@ func (s *XLSuite) doTestGetPathForKey(c *C, u UI, digest hash.Hash) {
 	var uLen int64
 	switch whichSHA {
 	case xu.USING_SHA1:
-		dKey, err = FileSHA1(dPath)
+		dKey, err = FileHexSHA1(dPath)
 		c.Assert(err, Equals, nil)
 		uLen, uKey, err = u.CopyAndPut1(dPath, dKey)
 		c.Assert(err, Equals, nil)
 	case xu.USING_SHA2:
-		dKey, err = FileSHA2(dPath)
+		dKey, err = FileHexSHA2(dPath)
 		c.Assert(err, Equals, nil)
 		uLen, uKey, err = u.CopyAndPut2(dPath, dKey)
 		c.Assert(err, Equals, nil)
 	case xu.USING_SHA3:
-		dKey, err = FileSHA3(dPath)
+		dKey, err = FileHexSHA3(dPath)
 		c.Assert(err, Equals, nil)
 		uLen, uKey, err = u.CopyAndPut3(dPath, dKey)
 		c.Assert(err, Equals, nil)
@@ -286,13 +286,13 @@ func (s *XLSuite) doTestPut(c *C, u UI, digest hash.Hash) {
 	dLen, dPath = rng.NextDataFile(dataPath, 16*1024, 1)
 	switch whichSHA {
 	case xu.USING_SHA1:
-		dKey, err = FileSHA1(dPath)
+		dKey, err = FileHexSHA1(dPath)
 		c.Assert(err, Equals, nil)
 	case xu.USING_SHA2:
-		dKey, err = FileSHA2(dPath)
+		dKey, err = FileHexSHA2(dPath)
 		c.Assert(err, Equals, nil)
 	case xu.USING_SHA3:
-		dKey, err = FileSHA3(dPath)
+		dKey, err = FileHexSHA3(dPath)
 		c.Assert(err, Equals, nil)
 		// XXX DEFAULT = ERROR
 	}
@@ -363,11 +363,11 @@ func (s *XLSuite) doTestPutData(c *C, u UI, digest hash.Hash) {
 	dLen, dPath = rng.NextDataFile(dataPath, 16*1024, 1)
 	switch whichSHA {
 	case xu.USING_SHA1:
-		dKey, err = FileSHA1(dPath)
+		dKey, err = FileHexSHA1(dPath)
 	case xu.USING_SHA2:
-		dKey, err = FileSHA2(dPath)
+		dKey, err = FileHexSHA2(dPath)
 	case xu.USING_SHA3:
-		dKey, err = FileSHA3(dPath)
+		dKey, err = FileHexSHA3(dPath)
 		// XXX DEFAULT = ERROR
 	}
 	c.Assert(err, Equals, nil)

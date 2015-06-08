@@ -1,5 +1,8 @@
 xlU_go/TODO
 
+2015-06-08
+    * replace FileSHA{1,2} with File{Bin,Hex}SHA{1,2}                   * DONE
+
 2014-12-17
     * introduce SHA-256 as SHA2 and so sha2_test.go
         - consider how to sensibly mix SHA256 and SHA3-256 in the

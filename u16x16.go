@@ -341,9 +341,9 @@ func (u *U16x16) Put1(inFile, key string) (
 		fullishPath                    string
 		topSubDir, lowerDir, targetDir string
 	)
-	hash, err = FileSHA1(inFile)
+	hash, err = FileHexSHA1(inFile)
 	if err != nil {
-		fmt.Printf("DEBUG: FileSHA1 returned error %v\n", err)
+		fmt.Printf("DEBUG: FileHexSHA1 returned error %v\n", err)
 		return
 	}
 	if hash != key {
@@ -503,9 +503,9 @@ func (u *U16x16) Put3(inFile, key string) (
 
 	var fullishPath string
 
-	hash, err = FileSHA3(inFile)
+	hash, err = FileHexSHA3(inFile)
 	if err != nil {
-		fmt.Printf("DEBUG: FileSHA3 returned error %v\n", err)
+		fmt.Printf("DEBUG: FileHexSHA3 returned error %v\n", err)
 		return
 	}
 	if hash != key {
@@ -659,9 +659,9 @@ func (u *U16x16) Put2(inFile, key string) (
 
 	var fullishPath string
 
-	hash, err = FileSHA2(inFile)
+	hash, err = FileHexSHA2(inFile)
 	if err != nil {
-		fmt.Printf("DEBUG: FileSHA2 returned error %v\n", err)
+		fmt.Printf("DEBUG: FileHexSHA2 returned error %v\n", err)
 		return
 	}
 	if hash != key {
