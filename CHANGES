@@ -1,5 +1,10 @@
 xlU_go/CHANGES
 
+v0.7.2
+    2015-07-10
+        * update .gitignore                                         SLOC 2432
+    2015-08-03
+        * correct copyright dates                                   SLOC 2432
 v0.7.1
     2015-06-08
         * replace FileSHAx with File{Bin,Hex}SHAx                   SLOC 2432
