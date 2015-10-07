@@ -5,6 +5,6 @@ package xlU_go
 // into a uint32 in in_handler.go init()
 const (
 	// the version number tracked in CHANGES
-	VERSION      = "0.7.2"
-	VERSION_DATE = "2015-08-03"
+	VERSION      = "0.7.3"
+	VERSION_DATE = "2015-10-06"
 )
