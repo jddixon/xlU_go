@@ -1,5 +1,8 @@
 xlU_go/CHANGES
 
+v0.7.4
+    2015-11-27
+        *
 v0.7.3
     2015-10-06
         * expanded docs                                             SLOC 2432
@@ -24,3 +27,4 @@ v0.6.0
 v0.5.0
     2014-05-10
         * split from xlattice_go                                    SLOC 1843
+
