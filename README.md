@@ -24,7 +24,7 @@ usually be found at `U/ab/cd/ef01234...`
 There will also be at least two subdirectories at the upper level
 
 * `U/in`, used for assembling files prior to being moved into the
-  appropriate lower directory; typically used for files being 
+  appropriate lower directory; typically used for files being
   received over the wire
 * `U/tmp`, similarly used by the system for temporary storage of files
   being moved into `U/` from the local file system
@@ -64,7 +64,7 @@ Currently three versions of SHA are supported:
 	PutData3(data []byte, key string) (length int64, hash string, err error)
 
 	GetDirStruc() DirStruc
-	GetPath() string 
+	GetPath() string
 
 	// These exist in two forms, for convenience
 	HexKeyExists(key string) (bool, error)
@@ -93,5 +93,6 @@ of test vectors.
 The code is stable and well-tested.
 
 ## On-line Documentation
+
 More information on the **xlU_go** project can be found
-[here](https://jddixon.github.io/xlU_go)
+[here](://jddixon.github.io/xlU_go)
