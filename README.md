@@ -95,4 +95,4 @@ The code is stable and well-tested.
 ## On-line Documentation
 
 More information on the **xlU_go** project can be found
-[here](://jddixon.github.io/xlU_go)
+[here](https://jddixon.github.io/xlU_go)
