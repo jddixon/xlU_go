@@ -1,7 +1,6 @@
 package xlU_go
 
 import (
-	"code.google.com/p/go.crypto/sha3"
 	"crypto/sha1"
 	"crypto/sha256"
 	"encoding/hex"
@@ -10,6 +9,7 @@ import (
 	xr "github.com/jddixon/rnglib_go"
 	xu "github.com/jddixon/xlUtil_go"
 	xf "github.com/jddixon/xlUtil_go/lfs"
+	"golang.org/x/crypto/sha3"
 	"os"
 	"path/filepath"
 )
@@ -550,7 +550,7 @@ func (u2 *U256x256) Put3(inFile, key string) (
 func (u2 *U256x256) PutData3(data []byte, key string) (
 	length int64, hash string, err error) {
 
-	s := sha3.NewKeccak256()
+	s := sha3.New256()
 	s.Write(data)
 	hash = hex.EncodeToString(s.Sum(nil))
 	if hash != key {

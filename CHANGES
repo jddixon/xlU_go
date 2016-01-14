@@ -1,5 +1,8 @@
 xlU_go/CHANGES
 
+v0.7.6
+    2016-01-14
+        * stop using code.google.com                                SLOC 2432
 v0.7.5
     2015-12-25
         * fix dead link
@@ -30,5 +33,6 @@ v0.6.0
 v0.5.0
     2014-05-10
         * split from xlattice_go                                    SLOC 1843
+
 
 

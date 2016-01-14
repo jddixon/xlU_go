@@ -2,13 +2,13 @@ package xlU_go
 
 import (
 	"bytes"
-	"code.google.com/p/go.crypto/sha3"
 	"crypto/sha1"
 	"crypto/sha256"
 	"encoding/hex"
 	"errors"
 	xu "github.com/jddixon/xlUtil_go"
 	xf "github.com/jddixon/xlUtil_go/lfs"
+	"golang.org/x/crypto/sha3"
 	"io"
 	"io/ioutil"
 	"os"
@@ -51,6 +51,7 @@ func CopyFile(destName, srcName string) (written int64, err error) {
 func FileSHA1(path string) (string, error) {
 	return FileHexSHA1(path)
 }
+
 // returns the SHA1 binHash of the contents of a file
 func FileBinSHA1(path string) (binHash []byte, err error) {
 	var data2 []byte
@@ -80,6 +81,7 @@ func FileHexSHA1(path string) (hash string, err error) {
 	}
 	return
 }
+
 // - FileHexSHA2 --------------------------------------------------------
 
 // XXX DEPRECATED
@@ -111,15 +113,17 @@ func FileHexSHA2(path string) (hexHash string, err error) {
 	binHash, err := FileBinSHA2(path)
 	if err == nil {
 		hexHash = hex.EncodeToString(binHash)
-	} 
+	}
 	return
 }
+
 // - FileHexSHA3 --------------------------------------------------------
 
 // XXX DEPRECATED
 func FileSHA3(path string) (string, error) {
 	return FileHexSHA3(path)
 }
+
 // returns the SHA3 hash of the contents of a file
 func FileBinSHA3(path string) (binHash []byte, err error) {
 	var data2 []byte
@@ -134,7 +138,7 @@ func FileBinSHA3(path string) (binHash []byte, err error) {
 		data2, err = ioutil.ReadFile(path)
 	}
 	if err == nil {
-		d2 := sha3.NewKeccak256()
+		d2 := sha3.New256()
 		d2.Write(data2)
 		binHash = d2.Sum(nil)
 	}
