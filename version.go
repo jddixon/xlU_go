@@ -1,6 +1,6 @@
 package xlU_go
 
 const (
-	VERSION      = "0.7.6"
-	VERSION_DATE = "2016-01-14"
+	VERSION      = "0.7.7"
+	VERSION_DATE = "2016-01-29"
 )
