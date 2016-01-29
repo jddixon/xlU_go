@@ -1,0 +1,12 @@
+cd ~/dev/go/src/github.com/jddixon/xlU_go
+
+rm -rf myData/*
+rm -rf myU1/*
+rm -rf myU2/*
+rm -rf myU3/*
+
+gofmt -w .
+
+pySloc -v -C go -X "^junk" $@      \
+    bash:countem        \
+ 
