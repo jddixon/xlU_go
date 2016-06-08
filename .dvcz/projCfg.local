@@ -1,0 +1,8 @@
+# xlU_go/.dvcz/projCfg.local
+
+dir:clr:myData
+dir:clr:myU1
+dir:clr:myU2
+dir:clr:myU3
+
+bin:local:abc
