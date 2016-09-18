@@ -4,9 +4,7 @@ Content-keyed directory structures for
 [xlattice_go;](https://jddixon.github.io/xlattice_go)
 a Go implementation of a file system
 based on **content keys**, where a content key is a cryptographically
-secure hash.
-
-either 20 or 32 bytes long.
+secure hash either 20 or 32 bytes long.
 
 ## Directory Structure
 
@@ -90,5 +88,5 @@ of test vectors.
 
 ## Project Status
 
-The code is stable and well-tested.
+A good beta.  The code is stable and well-tested.
 

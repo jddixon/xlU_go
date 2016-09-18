@@ -1,5 +1,11 @@
 xlU_go/TODO
 
+2016-09-18
+    * library is single-threaded
+    * needs sha3-256 support
+    * tests should be revised to use a single, shared repository for
+        test data
+
 2015-06-08
     * replace FileSHA{1,2} with File{Bin,Hex}SHA{1,2}                   * DONE
 

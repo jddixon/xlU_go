@@ -6,7 +6,7 @@ then
   
   rm -rf myData/* myU1/* myU2/* myU3/* 
   
-  pySloc -L go  -X *.pb.go -v $@
+  pySloc -L go   -X *.pb.go -v $@
 else
   echo "DEV_BASE is not defined"
 fi
