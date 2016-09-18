@@ -5,4 +5,6 @@ dir:clr:myU1
 dir:clr:myU2
 dir:clr:myU3
 
+txt:std:LICENSE-MIT.md
+
 bin:local:abc
