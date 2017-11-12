@@ -1,5 +1,11 @@
 xlU_go/CHANGES
 
+v0.7.14
+    2017-11-12
+        * correct directory structure, config files                 SLOC 3081
+v0.7.13
+    2017-05-24
+        * (text lost)                                               SLOC 3083
 v0.7.12
     2017-05-23
         * add projConfig.toml                                       SLOC 3081
@@ -51,6 +57,8 @@ v0.6.0
 v0.5.0
     2014-05-10
         * split from xlattice_go                                    SLOC 1843
+
+
 
 
 
